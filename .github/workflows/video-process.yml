@@ -1,0 +1,39 @@
+# Copy this content into video-process.yml
+name: Video Processing Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: 'YouTube Video URL'
+        required: true
+        type: string
+      segment_duration:
+        description: 'Segment duration in minutes'
+        required: false
+        default: '20'
+        type: string
+
+jobs:
+  process-video:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install youtube-dl moviepy openai-whisper pandas
+
+    - name: Create directories
+      run: |
+        mkdir -p output/videos
+        mkdir -p output/transcripts
+        mkdir -p output/index
