@@ -34,26 +34,16 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install moviepy==1.0.3  # Specify version
-        pip install yt-dlp  # Use instead of youtube-dl
-        pip install whisper openai-whisper pandas
-
-    - name: Create directories
-      run: |
-        mkdir -p output/videos
-        mkdir -p output/transcripts
-        mkdir -p output/index
+        pip install pytube
+        pip install moviepy==1.0.3
+        pip install openai-whisper==20231117
+        pip install pandas==2.2.0
 
     - name: Process video
       run: |
         echo "Starting video processing..."
         python scripts/process_video.py "${{ github.event.inputs.video_url }}" "${{ github.event.inputs.segment_duration }}"
         echo "Processing complete"
-        
-    - name: List generated files
-      run: |
-        echo "Output files:"
-        ls -R output/
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
