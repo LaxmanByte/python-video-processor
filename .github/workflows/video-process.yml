@@ -19,10 +19,10 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
@@ -54,12 +54,9 @@ jobs:
         ls -R output/
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: success()
       with:
         name: processed-video-files
-        path: |
-          output/videos/
-          output/transcripts/
-          output/index/
+        path: output/
         retention-days: 5
